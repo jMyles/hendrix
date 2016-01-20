@@ -23,8 +23,8 @@ class HendrixTestCase(unittest.TestCase):
     def setUp(self):
         self.reactor = reactor
 
-    def deploy(self, action, options):
-        return HendrixDeploy(action, options, reactor=self.reactor)
+    def deploy(self, options):
+        return HendrixDeploy(options=options, reactor=self.reactor)
 
     def tearDown(self):
         """
@@ -40,7 +40,7 @@ class HendrixTestCase(unittest.TestCase):
         self.reactor.disconnectAll()
         return self.reactor.removeAll()
 
-    def wsgiDeploy(self, action='start', options={}):
+    def wsgiDeploy(self, options={}):
         """
         Overrides the deploy functionality to test hendrix outside of the
         whole django LazySettings.configure() thing.
@@ -51,10 +51,10 @@ class HendrixTestCase(unittest.TestCase):
             raise SettingsError("uh uh uh... Don't use settings here.")
         if not options.get('wsgi'):
             options.update({'wsgi': 'hendrix.test.wsgi'})
-        return self.deploy(action, options)
+        return self.deploy(options)
 
-    def settingsDeploy(self, action='start', options={}):
+    def settingsDeploy(self, options={}):
         "Use the hendrix test project to test the bash deployment flow path"
         os.environ['DJANGO_SETTINGS_MODULE'] = TEST_SETTINGS
         options.update({'settings': TEST_SETTINGS})
-        return self.deploy(action, options)
+        return self.deploy(options)

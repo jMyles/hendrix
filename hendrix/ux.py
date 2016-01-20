@@ -11,14 +11,13 @@ import subprocess
 import sys
 import time
 import traceback
-import pickle
+
+from hendrix.deploy.base import HendrixDeployConfiguration
 from hendrix.options import cleanOptions
 from .options import HendrixOptionParser
 from hendrix.contrib import SettingsError
 from hendrix.deploy import base, cache
-from hendrix.deploy.base import Data
 from hendrix.logger import hendrixObserver
-from hendrix.mechanics.async.exceptions import RedisException
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -108,11 +107,11 @@ def launch(*args, **options):
     Hedrix.run
     """
     action = args[0]
-    data = Data(action, options)
+    config = HendrixDeployConfiguration(action, options)
     if options['reload']:
         logReload(options)
     else:
-        assignDeploymentInstance(data, options)
+        assignDeploymentInstance(config, options)
 
 
 def findSettingsModule():

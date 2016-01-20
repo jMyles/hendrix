@@ -25,7 +25,7 @@ class DeployTests(HendrixTestCase):
     def test_workers(self):
         "test the expected behaviour of workers and associated functions"
         num_workers = 2
-        deploy = self.settingsDeploy('start', {'workers': num_workers})
+        deploy = self.settingsDeploy({'workers': num_workers})
         with patch.object(deploy.reactor, 'spawnProcess') as _spawnProcess:
             deploy.addServices()
             deploy.start()

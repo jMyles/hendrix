@@ -131,5 +131,5 @@ class TestMain(HendrixTestCase):
         """
         deploy = self.wsgiDeploy()
         expected_keys = self.DEFAULTS.keys()
-        actual_keys = deploy.options.keys()
+        actual_keys = deploy.config.options.keys()
         self.assertEqual(expected_keys, actual_keys)
